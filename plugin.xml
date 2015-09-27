@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:amazon="http://schemas.android.com/apk/lib/com.amazon.device.ads"
+    xmlns:rim="http://www.blackberry.com/ns/widgets"
+    id="com.filfatstudios.musiccontroller"
+    version="1.2.2">
+    <name>MusicController</name>
+    <description>Interactive multimedia controls</description>
+    <license>MIT</license>
+
+    <engines>
+        <engine name="cordova" version=">=3.4.0"/>
+    </engines>
+
+    <asset src="www/MusicController.js" target="js/MusicController.js"/>
+
+    <js-module src="www/MusicController.js" name="MusicController">
+        <clobbers target="MusicController" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MusicController" >
+                <param name="android-package" value="com.filfatstudios.musiccontroller.MusicController"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        </config-file>
+
+        <source-file src="src/android/MusicController.java" target-dir="src/com/filfatstudios/musiccontroller" />
+        <source-file src="src/android/MusicControllerBroadcastReceiver.java" target-dir="src/com/filfatstudios/musiccontroller" />
+        <source-file src="src/android/MusicControllerNotification.java" target-dir="src/com/filfatstudios/musiccontroller" />
+    </platform>
+    
+    <!-- windows -->
+  	<platform name="windows">
+    	<js-module src="src/windows/MusicControllerProxy.js" name="MusicControllerProxy">
+    		<merges target="" />
+    	</js-module>
+	</platform>
+
+</plugin>
