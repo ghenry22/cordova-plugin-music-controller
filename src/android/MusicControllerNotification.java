@@ -37,7 +37,11 @@ public class MusicControllerNotification {
         Context context = cordovaActivity;
         this.notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
-    
+	
+	/*
+		getBitmapFromURL(String URL)
+		Stores image from URL in memory as Bitmap.
+	*/
     private Bitmap getBitmapFromURL(String strURL) {
         try {
             URL url = new URL(strURL);
@@ -52,18 +56,26 @@ public class MusicControllerNotification {
             return null;
         }
     }
-
-    private Notification.Builder createBuilder(String artist, String song, String cover, boolean isPlaying){
+	
+	/*
+		createBuilder(String track, String artist, String album, String cover, boolean isPlaying)
+		Creates a music controller notification builder based on the input data.
+	*/
+    private Notification.Builder createBuilder(String track, String artist, String album, String cover, boolean isPlaying){
         Context context = cordovaActivity;
         Notification.Builder builder = new Notification.Builder(context);
         
         //Configure builder
-        builder.setContentTitle(song).setContentText(artist);
+        builder.setContentTitle(track); //Title
+		if(album != null && !album.isEmpty()) //Content
+			builder.setContentText(artist + " - " + album);
+		else
+			builder.setContentText(artist);
         builder.setWhen(0);
         builder.setOngoing(true);
-        builder.setPriority(Notification.PRIORITY_HIGH);
+        builder.setPriority(Notification.PRIORITY_MAX);
         
-        //If 5.0 >= user MediaStyle
+        //If 5.0 >= use MediaStyle
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
             builder.setStyle(new Notification.MediaStyle());
             
@@ -105,17 +117,17 @@ public class MusicControllerNotification {
         builder.setContentIntent(resultPendingIntent);
         
         //Controls
-        /* Previous  */
+        /* Previous */
         Intent previousIntent = new Intent("music-controller-previous");
         PendingIntent previousPendingIntent = PendingIntent.getBroadcast(context, 1, previousIntent, 0);
         builder.addAction(android.R.drawable.ic_media_rew, "", previousPendingIntent);
         if (isPlaying){
-            /* Pause  */
+            /* Pause */
             Intent pauseIntent = new Intent("music-controller-pause");
             PendingIntent pausePendingIntent = PendingIntent.getBroadcast(context, 1, pauseIntent, 0);
             builder.addAction(android.R.drawable.ic_media_pause, "", pausePendingIntent);
         } else {
-            /* Play  */
+            /* Play */
             Intent playIntent = new Intent("music-controller-play");
             PendingIntent playPendingIntent = PendingIntent.getBroadcast(context, 1, playIntent, 0);
             builder.addAction(android.R.drawable.ic_media_play, "", playPendingIntent);
@@ -128,13 +140,20 @@ public class MusicControllerNotification {
         //Return the created builder
         return builder;
     }
-
-    public void updateNotification(String artist, String track, String cover, boolean isPlaying){
-        Notification.Builder builder = this.createBuilder(artist, track, cover, isPlaying);
+	
+	/*
+	
+	*/
+    public void updateNotification(String track, String artist, String album, String cover, boolean isPlaying){
+        Notification.Builder builder = this.createBuilder(track, artist, album, cover, isPlaying);
         Notification noti = builder.build();
         this.notificationManager.notify(this.notificationID, noti);
     }
-
+	
+	/*
+		destory()
+		Destory the Notification
+	*/
     public void destory(){
         this.notificationManager.cancel(this.notificationID);
     }

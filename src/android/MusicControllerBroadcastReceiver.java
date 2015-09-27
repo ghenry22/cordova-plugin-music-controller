@@ -41,7 +41,7 @@ public class MusicControllerBroadcastReceiver extends BroadcastReceiver {
 						this.cb = null;
 						break;
 					default:
-						//Log.d(TAG, "I have no idea what the headset state is");
+						break;
 				}
 
 			} else {

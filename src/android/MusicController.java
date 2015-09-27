@@ -51,11 +51,12 @@ public class MusicController extends CordovaPlugin {
 			final JSONObject params = args.getJSONObject(0);
 			final String track = params.getString("track");
 			final String artist = params.getString("artist");
+			final String album = (params.has("album") && !params.getString("album").isEmpty()) ? params.getString("album") : null;
 			final String cover = params.getString("cover");
 			final boolean isPlaying= params.getBoolean("isPlaying");
 			this.cordova.getThreadPool().execute(new Runnable() {
 				public void run() {
-					notification.updateNotification(artist, track, cover, isPlaying);
+					notification.updateNotification(track, artist, album, cover, isPlaying);
 					callbackContext.success("success");
 				}
 			});

@@ -13,10 +13,11 @@ Interactive multimedia controls. Based on https://github.com/homerours/cordova-m
 Create the media controller:
 ```javascript
 MusicController.create({
-    track: 'Speak Now',
-	artist: 'Taylor Swift',
-    cover: 'albums/speak-now.jpg',
-    isPlaying: true
+    track: 'Speak Now',				//Requierd
+	artist: 'Taylor Swift',			//Required
+    cover: 'albums/speak-now.jpg',	//Required
+	album: 'Speak Now',				//Optional, Only visible on Android
+    isPlaying: true					//Required
 }, onSuccess, onError);
 ```
 
