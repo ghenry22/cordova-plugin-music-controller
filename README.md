@@ -23,7 +23,7 @@ MusicController.create({
 
 Destroy the media controller:
 ```javascript
-MusicController.destory(onSuccess, onError);
+MusicController.destroy(onSuccess, onError);
 ```
 
 Subscribe to the media controller events:
@@ -50,21 +50,34 @@ function events(action) {
 		case 'music-controller-headset-plugged':
 			//Do something
 			break;
+		case 'music-controller-headset-button':
+			//Do something
+			break;
 		default:
 			break;
 	}
 }
 //Register callback
 MusicController.subscribe(events);
+
 //Start listening for events
-//The plugin will run the events function each time an event is fired
-Musiccontroller.listen();
+MusicController.listen();
+```
+
+Feature detect to avoid crash or errors on unsupported platforms:
+```javascript
+document.addEventListener("deviceready", function () {
+	if(typeof MusicController !== 'undefined'){
+		//It's safe to use MusicController here	
+	}
+}, function(){}, function(){});
 ```
 
 ##Quirks
 * Cordova 5.0 or higher is required for Windows support.
+* Android is qurrently the only platform that supports the headset events.
 * Windows currently only supports locally stored covers.
-* Windows does currently not support headset plugg events.
+* Windows Mobile is currently not support but the feature detection will still pass and *might* cause instabillity.
 * This plugin is still under development which means that it's not yet "production ready".
 
 

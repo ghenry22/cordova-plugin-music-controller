@@ -1,3 +1,6 @@
+//  cordova-plugin-music-controller
+//  Copyright © 2015 filfat Studios AB
+//  Repo: https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
 var mc = Windows.Media.MediaControl;
 var onUpdate = function (event) { };
 
@@ -43,7 +46,7 @@ cordova.commandProxy.add("MusicController",{
 		mc.isPlaying = data.isPlaying;
 		mc.trackName = data.track;
     },
-    destory: function (successCallback, errorCallback, datas) {
+    destroy: function (successCallback, errorCallback, datas) {
         //Remove events
         mc.removeEventListener("playpausetogglepressed", onPlayPause);
         mc.removeEventListener("playpressed", onPlay);

@@ -1,10 +1,13 @@
+//  cordova-plugin-music-controller
+//  Copyright © 2015 filfat Studios AB
+//  Repo: https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
 module.exports = {
 	updateCallback : function(){},
     create: function(data, successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, 'MusicController', 'create', [data]);
     },
-    destory: function(successCallback,errorCallback){
-        cordova.exec(successCallback, errorCallback, 'MusicController', 'destory', []);
+    destroy: function(successCallback,errorCallback){
+        cordova.exec(successCallback, errorCallback, 'MusicController', 'destroy', []);
     },
 
 	// Register callback
@@ -19,5 +22,4 @@ module.exports = {
 		module.exports.updateCallback(messageFromNative);
         cordova.exec(module.exports.receiveCallbackFromNative, function(res){ }, 'MusicController', 'watch', []);
 	}
-
 };

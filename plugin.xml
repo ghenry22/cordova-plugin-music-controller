@@ -1,10 +1,15 @@
+<!--
+    cordova-plugin-music-controller
+    Copyright © 2015 filfat Studios AB
+    Repo: https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
+-->
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:amazon="http://schemas.android.com/apk/lib/com.amazon.device.ads"
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     id="com.filfatstudios.musiccontroller"
-    version="1.2.3">
+    version="1.2.4">
     <name>MusicController</name>
     <description>Interactive multimedia controls</description>
     <license>MIT</license>

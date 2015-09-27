@@ -31,6 +31,8 @@ public class MusicControllerNotification {
     private int notificationID = 0;
 
     public MusicControllerNotification(Activity cordovaActivity){
+        //Set ID to a random ID to make sure we don't collide with another notificationID
+        //TODO: Use ms & random number
         Random r = new Random();
         this.notificationID = r.nextInt(100000);
         this.cordovaActivity = cordovaActivity;
@@ -57,10 +59,6 @@ public class MusicControllerNotification {
         }
     }
 	
-	/*
-		createBuilder(String track, String artist, String album, String cover, boolean isPlaying)
-		Creates a music controller notification builder based on the input data.
-	*/
     private Notification.Builder createBuilder(String track, String artist, String album, String cover, boolean isPlaying){
         Context context = cordovaActivity;
         Notification.Builder builder = new Notification.Builder(context);
@@ -71,11 +69,11 @@ public class MusicControllerNotification {
 			builder.setContentText(artist + " - " + album);
 		else
 			builder.setContentText(artist);
-        builder.setWhen(0);
-        builder.setOngoing(true);
-        builder.setPriority(Notification.PRIORITY_MAX);
+        builder.setWhen(0); //Active now
+        builder.setOngoing(true); //Disable dissmising
+        builder.setPriority(Notification.PRIORITY_MAX); //Position controller at top
         
-        //If 5.0 >= use MediaStyle
+        //For Android 5.0 or higher use MediaStyle
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
             builder.setStyle(new Notification.MediaStyle());
             
@@ -89,12 +87,14 @@ public class MusicControllerNotification {
         //Set LargeIcon
         if (!cover.isEmpty()){
             if(cover.matches("^(https?|ftp)://.*$"))
+                //Download image from remote host
                 try{
                     builder.setLargeIcon(getBitmapFromURL(cover));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            else{
+            else {
+                //Access local image
                 try {
                     Uri uri = Uri.parse(cover);
                     File file = new File(uri.getPath());
@@ -109,14 +109,14 @@ public class MusicControllerNotification {
             }
         }
         
-        //Open app if tapped
+        //Open app if controller is tapped
         Intent resultIntent = new Intent(context, cordovaActivity.getClass());
         resultIntent.setAction(Intent.ACTION_MAIN);
         resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
         builder.setContentIntent(resultPendingIntent);
         
-        //Controls
+        //Handle Controls
         /* Previous */
         Intent previousIntent = new Intent("music-controller-previous");
         PendingIntent previousPendingIntent = PendingIntent.getBroadcast(context, 1, previousIntent, 0);
@@ -142,19 +142,20 @@ public class MusicControllerNotification {
     }
 	
 	/*
-	
+	   void createMuiscController(String track, String artist, String album, String cover, boolean isPlaying)
+       Create the music controller and show it
 	*/
-    public void updateNotification(String track, String artist, String album, String cover, boolean isPlaying){
+    public void createMuiscController(String track, String artist, String album, String cover, boolean isPlaying){
         Notification.Builder builder = this.createBuilder(track, artist, album, cover, isPlaying);
         Notification noti = builder.build();
         this.notificationManager.notify(this.notificationID, noti);
     }
 	
 	/*
-		destory()
-		Destory the Notification
+		void destroy()
+		Destroy the Notification
 	*/
-    public void destory(){
+    public void destroy(){
         this.notificationManager.cancel(this.notificationID);
     }
 }

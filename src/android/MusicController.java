@@ -1,3 +1,6 @@
+//  cordova-plugin-music-controller
+//  Copyright © 2015 filfat Studios AB
+//  Repo: https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
 package com.filfatstudios.musiccontroller;
 
 import org.apache.cordova.CallbackContext;
@@ -10,18 +13,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+import android.app.PendingIntent;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.ComponentName;
 import android.content.IntentFilter;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
-import android.view.View;
 import android.R;
-import android.content.BroadcastReceiver;
+import android.view.View;
 
 public class MusicController extends CordovaPlugin {
-	private MusicControllerBroadcastReceiver mMessageReceiver = new MusicControllerBroadcastReceiver();
+	private MusicControllerBroadcastReceiver mMessageReceiver;
+	private AudioManager mAudioManager;
 	private MusicControllerNotification notification;
+	private PendingIntent mediaButtonPendingIntent;
 
 	private void registerBroadcaster(MusicControllerBroadcastReceiver mMessageReceiver){
 		final Context context = this.cordova.getActivity().getApplicationContext();
@@ -29,17 +37,26 @@ public class MusicController extends CordovaPlugin {
 		context.registerReceiver((BroadcastReceiver)mMessageReceiver, new IntentFilter("music-controller-pause"));
 		context.registerReceiver((BroadcastReceiver)mMessageReceiver, new IntentFilter("music-controller-play"));
 		context.registerReceiver((BroadcastReceiver)mMessageReceiver, new IntentFilter("music-controller-next"));
+		context.registerReceiver((BroadcastReceiver)mMessageReceiver, new IntentFilter("music-controller-headset-button"));
 
-		// Listen for headset plug/unplug
+		//Listen for headset plugg events
 		context.registerReceiver((BroadcastReceiver)mMessageReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 	}
-
+	
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
 		final Activity activity = this.cordova.getActivity();
-		registerBroadcaster(mMessageReceiver);
 		this.notification = new MusicControllerNotification(activity);
+		this.mMessageReceiver = new MusicControllerBroadcastReceiver(this);
+		registerBroadcaster(mMessageReceiver);
+		
+		//Listen for headset events
+		final Context context=activity.getApplicationContext();
+		this.mAudioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		Intent headsetIntent = new Intent("music-controller-headset-button");
+		this.mediaButtonPendingIntent = PendingIntent.getBroadcast(context, 0, headsetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		this.registerMediaButtonEvent();
 	}
 
 	@Override
@@ -56,13 +73,13 @@ public class MusicController extends CordovaPlugin {
 			final boolean isPlaying= params.getBoolean("isPlaying");
 			this.cordova.getThreadPool().execute(new Runnable() {
 				public void run() {
-					notification.updateNotification(track, artist, album, cover, isPlaying);
+					notification.createMuiscController(track, artist, album, cover, isPlaying);
 					callbackContext.success("success");
 				}
 			});
 		}
-		else if (action.equals("destory")){
-			this.notification.destory();
+		else if (action.equals("destroy")){
+			this.notification.destroy();
 			this.mMessageReceiver.stopListening();
 			callbackContext.success("success");
 		}
@@ -78,7 +95,7 @@ public class MusicController extends CordovaPlugin {
 
 	@Override
 	public void onDestroy() {
-		this.notification.destory();
+		this.notification.destroy();
 		this.mMessageReceiver.stopListening();
 		super.onDestroy();
 	}
@@ -87,5 +104,21 @@ public class MusicController extends CordovaPlugin {
 	public void onReset() {
 		onDestroy();
 		super.onReset();
+	}
+	
+	/*
+		void registerMediaButtonEvent()
+		Register media button event for broadcast
+	*/
+	public void registerMediaButtonEvent(){
+		this.mAudioManager.registerMediaButtonEventReceiver(this.mediaButtonPendingIntent);
+	}
+	
+	/*
+		void unregisterMediaButtonEvent()
+		Unregister media button event for broadcast
+	*/
+	public void unregisterMediaButtonEvent(){
+		this.mAudioManager.unregisterMediaButtonEventReceiver(this.mediaButtonPendingIntent);
 	}
 }
