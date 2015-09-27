@@ -1,6 +1,7 @@
 //  cordova-plugin-music-controller
 //  Copyright © 2015 filfat Studios AB
 //  Repo: https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
+/* global Windows, cordova */
 var mc = Windows.Media.MediaControl;
 var onUpdate = function (event) { };
 
