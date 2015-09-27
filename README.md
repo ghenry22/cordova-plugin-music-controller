@@ -7,7 +7,11 @@ Interactive multimedia controls. Based on https://github.com/homerours/cordova-m
 - Windows (10+)
 
 ## Installation
-`cordova plugin add https://github.com/filfat-Studios-AB/cordova-plugin-music-controller`
+```
+cordova plugin add https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
+cordova prepare
+```
+
 
 ## Methods
 Create the media controller:
