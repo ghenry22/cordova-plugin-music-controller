@@ -1,4 +1,4 @@
-# cordova-plugin-music-controller
+# cordova-plugin-media-controller
 Interactive multimedia controls. Based on https://github.com/homerours/cordova-music-controls-plugin
 
 ## Platforms

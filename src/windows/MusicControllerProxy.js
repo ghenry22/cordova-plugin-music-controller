@@ -2,56 +2,71 @@
 //  Copyright © 2015 filfat Studios AB
 //  Repo: https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
 /* global Windows, cordova */
-var mc = Windows.Media.MediaControl;
+var mc;
 var onUpdate = function (event) { };
 
-var onPlay = function () {
-    onUpdate('music-controller-play');
-},
-onPause = function () {
-    onUpdate('music-controller-pause');
-},
-onPlayPause = function () {
-    if (mc.isPlaying)
-        onPause();
-    else
-        onPlay();
-},
-onNext = function () {
-    onUpdate('music-controller-next');
-},
-onPrev = function () {
-    onUpdate('music-controller-previous');
+var onKey = function (event) {
+    var Button = Windows.Media.SystemMediaTransportControlsButton;
+    switch (event.button) {
+        case Button.play:
+            onUpdate('music-controller-play');
+            break;
+        case Button.pause:
+            onUpdate('music-controller-pause');
+            break;
+        case Button.stop:
+            onUpdate('music-controller-stop');
+            break;
+        case Button.next:
+            onUpdate('music-controller-next');
+            break;
+        case Button.previous:
+            onUpdate('music-controller-previous');
+            break;
+    }
 };
 
 cordova.commandProxy.add("MusicController",{
     create: function (successCallback, errorCallback, datas) {
         var data = datas[0];
+        mc = Windows.Media.SystemMediaTransportControls.getForCurrentView();
+        mc.displayUpdater.clearAll();
 
         //Handle events
-        mc.addEventListener("playpausetogglepressed", onPlayPause, false);
-		mc.addEventListener("playpressed", onPlay, false);
-		mc.addEventListener("pausepressed", onPause, false);
-		mc.addEventListener("previoustrackpressed", onPrev, false);
-		mc.addEventListener("nexttrackpressed", onNext, false);
+        mc.addEventListener("buttonpressed", onKey, false);
+
+        //Set data
+        mc.isEnabled = true;
+        mc.isPlayEnabled = true;
+        mc.isPauseEnabled = true;
+        mc.isNextEnabled = true;
+        mc.isStopEnabled = true;
+        mc.isPreviousEnabled = true;
+        mc.displayUpdater.type = Windows.Media.MediaPlaybackType.music;
+
+        //Is Playing
+        if (data.isPlaying)
+            mc.playbackStatus = Windows.Media.MediaPlaybackStatus.playing;
+        else
+            mc.playbackStatus = Windows.Media.MediaPlaybackStatus.stopped;
+        
 
 		if (!/^(f|ht)tps?:\/\//i.test(data.cover)) {
 		    var cover = new Windows.Foundation.Uri("ms-appdata://" + data.cover);
-		    mc.albumArt = cover;
+		    mc.displayUpdater.thumbnail = Windows.Storage.Streams.RandomAccessStreamReference.createFromUri(cover);
 		} else {
 		    //TODO: Store image locally
 		}
-
-        //Set data
-		mc.artistName = data.artist;
-		mc.isPlaying = data.isPlaying;
-		mc.trackName = data.track;
+		mc.displayUpdater.musicProperties.albumArtist = data.artist;
+		mc.displayUpdater.musicProperties.albumTitle = data.album;
+		mc.displayUpdater.musicProperties.artist = data.artist;
+		mc.displayUpdater.musicProperties.title = data.track;
+		//mc.displayUpdater.musicProperties.trackNumber = data.trackNumber;
+		mc.displayUpdater.update();
     },
     destroy: function (successCallback, errorCallback, datas) {
         //Remove events
-        mc.removeEventListener("playpausetogglepressed", onPlayPause);
-        mc.removeEventListener("playpressed", onPlay);
-        mc.removeEventListener("pausepressed", onPause);
+        mc.displayUpdater.clearAll();
     },
     watch: function (_onUpdate, errorCallback, datas) {
         //Set callback
