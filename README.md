@@ -1,19 +1,19 @@
-#cordova-plugin-music-controller
+# cordova-plugin-music-controller
 Interactive multimedia controls. Based on https://github.com/homerours/cordova-music-controls-plugin
 
-##Platforms
+## Platforms
 - Android (4.1+)
 - iOS (under development)
 - Windows (10+)
 
-##Installation
+## Installation
 ```
 cordova plugin add https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
 cordova prepare
 ```
 
 
-##Methods
+## Methods
 Create the media controller:
 ```javascript
 MusicController.create({
@@ -77,7 +77,7 @@ document.addEventListener("deviceready", function () {
 }, function(){}, function(){});
 ```
 
-##Quirks
+## Quirks
 * Cordova 5.0 or higher is required for Windows support.
 * Android is qurrently the only platform that supports the headset events.
 * Windows currently only supports locally stored covers.
@@ -85,6 +85,6 @@ document.addEventListener("deviceready", function () {
 * This plugin is still under development which means that it's not yet "production ready".
 
 
-##Screenshots
+## Screenshots
 ![Android](http://i.imgur.com/Qe1a8ZJ.png)
 ![Windows](http://i.imgur.com/Y4HsM0s.png)
