@@ -1,19 +1,19 @@
-# cordova-plugin-music-controller
+#cordova-plugin-music-controller
 Interactive multimedia controls. Based on https://github.com/homerours/cordova-music-controls-plugin
 
-## Supported platforms
+##Platforms
 - Android (4.1+)
 - iOS (under development)
 - Windows (10+)
 
-## Installation
+##Installation
 ```
 cordova plugin add https://github.com/filfat-Studios-AB/cordova-plugin-music-controller
 cordova prepare
 ```
 
 
-## Methods
+##Methods
 Create the media controller:
 ```javascript
 MusicController.create({
