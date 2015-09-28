@@ -88,3 +88,4 @@ document.addEventListener("deviceready", function () {
 ## Screenshots
 ![Android](http://i.imgur.com/Qe1a8ZJ.png)
 ![Windows](http://i.imgur.com/Y4HsM0s.png)
+![Windows Mobile](http://i.imgur.com/FUEwyeF.png)
