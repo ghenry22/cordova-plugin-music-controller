@@ -79,7 +79,7 @@ document.addEventListener("deviceready", function () {
 
 ## Quirks
 * Cordova 5.0 or higher is required for Windows support.
-* Android is qurrently the only platform that supports the headset events.
+* Android is qurrently the only platform that supports the headset events (Windows Mobile handles them for you).
 * Windows currently only supports locally stored covers.
 * Windows Mobile requires to have at least one audio player active before showing up.
 * This plugin is still under development which means that it's not yet "production ready".
