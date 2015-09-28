@@ -30,7 +30,6 @@ cordova.commandProxy.add("MusicController",{
     create: function (successCallback, errorCallback, datas) {
         var data = datas[0];
         mc = Windows.Media.SystemMediaTransportControls.getForCurrentView();
-        mc.displayUpdater.clearAll();
 
         //Handle events
         mc.addEventListener("buttonpressed", onKey, false);
@@ -53,7 +52,7 @@ cordova.commandProxy.add("MusicController",{
 
 		if (!/^(f|ht)tps?:\/\//i.test(data.cover)) {
 		    var cover = new Windows.Foundation.Uri("ms-appdata://" + data.cover);
-		    mc.displayUpdater.thumbnail = Windows.Storage.Streams.RandomAccessStreamReference.createFromUri(cover);
+		    mc.displayUpdater.thumbnail = cover;
 		} else {
 		    //TODO: Store image locally
 		}
