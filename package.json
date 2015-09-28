@@ -1,0 +1,40 @@
+{
+  "name": "cordova-plugin-media-controller",
+  "version": "1.2.4",
+  "description": "A cordova plugin for controlling music using interactive elements",
+  "author": "filfat-studios-ab",
+  "license": "MIT",
+  "homepage": "https://github.com/filfat-Studios-AB/cordova-plugin-music-controller",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/filfat-Studios-AB/cordova-plugin-music-controller.git"
+  },
+  "cordova": {
+    "id": "cordova-plugin-media-controller",
+    "platforms": [
+      "android",
+      "windows"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "music",
+    "controller",
+    "controls",
+    "media",
+    "plugin",
+    "notification",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-windows"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.4.0"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/filfat-Studios-AB/cordova-plugin-music-controller/issues"
+  }
+}
