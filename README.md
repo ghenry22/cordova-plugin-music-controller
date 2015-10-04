@@ -20,12 +20,12 @@ cordova prepare
 Create the media controller:
 ```javascript
 MusicController.create({
-    track: 'Speak Now',				//Requierd
+    track: 'Shake It Off',			//Requierd
 	artist: 'Taylor Swift',			//Required
-    cover: 'albums/speak-now.jpg',	//Required
-	album: 'Speak Now',				//Optional, Only visible on Android
-    length: 321,					//Required, Only for iOS
-    position: 123					//Required, Only for iOS
+    cover: 'albums/1989.jpg',		//Required
+	album: '1989',					//Optional, Only visible on Android
+    length: 219,					//Required, Only for iOS
+    position: 146					//Required, Only for iOS
 	isPlaying: true,				//Required
 }, onSuccess, onError);
 ```
