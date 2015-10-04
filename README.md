@@ -24,7 +24,9 @@ MusicController.create({
 	artist: 'Taylor Swift',			//Required
     cover: 'albums/speak-now.jpg',	//Required
 	album: 'Speak Now',				//Optional, Only visible on Android
-    isPlaying: true					//Required
+    length: 321,					//Required, Only for iOS
+    position: 123					//Required, Only for iOS
+	isPlaying: true,				//Required
 }, onSuccess, onError);
 ```
 
