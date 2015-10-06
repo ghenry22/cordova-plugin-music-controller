@@ -25,7 +25,7 @@ MusicController.create({
     cover: 'albums/1989.jpg',		//Required
 	album: '1989',					//Optional, Only visible on Android
     length: 219,					//Required, Only for iOS
-    position: 146					//Required, Only for iOS
+    position: 146,					//Required, Only for iOS
 	isPlaying: true,				//Required
 }, onSuccess, onError);
 ```
